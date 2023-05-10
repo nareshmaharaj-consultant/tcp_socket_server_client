@@ -16,16 +16,17 @@ public class TCPSocketTest {
     private static int retryConnection = 2000;
     private static int sleepInterval = 5000;
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         if ( args.length == 0 ){
-            System.out.println("Usage is either \"java -jar SocketServerClient.jar\" \n\t" +
-                    "\n\t-t [server | client]" +
-                    "\n\t-h host " +
-                    "\n\t-p port " +
-                    "\n\t-n #use to log successful pings" +
-                    "\n\t-f #use to log connection failures" +
-                    "\n\t-r (ms) connection retry interval" +
-                    "\n\t-s (ms) application ping sleep time"
+            System.out.println("""
+                    Usage is either "java -jar SocketServerClient.jar"
+                    \t-t [server | client]
+                    \t-h host\s
+                    \t-p port\s
+                    \t-n #use to log successful pings
+                    \t-f #use to log connection failures
+                    \t-r (ms) connection retry interval
+                    \t-s (ms) application ping sleep time"""
             );
             System.exit(0);
         }
@@ -34,37 +35,16 @@ public class TCPSocketTest {
             String args_i = args[i];
             if ( args_i.startsWith("-") ){
                 char command = args_i.charAt(1);
-                
-                switch (command)
-                {
-                    case 't':
-                        String command_arg_service = args[i+1];
-                        service = command_arg_service;
-                        break;
-                    case 'p':
-                        String command_arg_port = args[i+1];
-                        port = Integer.parseInt(command_arg_port);
-                        break;
-                    case 'h':
-                        String command_arg_host = args[i+1];
-                        host = command_arg_host;
-                        break;
-                    case 'n': // Log ping
-                        log_ping = true;
-                        break;
-                    case 'f': // Log connection failures
-                        log_failures = true;
-                        break;
-                    case 'r': // retry interval for connection failures
-                        String command_arg_retryTime = args[i+1];
-                        retryConnection = Integer.parseInt(command_arg_retryTime);;
-                        break;
-                    case 's': // retry interval for connection failures
-                        String command_arg_sleepInterval = args[i+1];
-                        sleepInterval = Integer.parseInt(command_arg_sleepInterval);;
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + command);
+
+                switch (command) {
+                    case 't' -> service = args[i + 1];
+                    case 'p' -> port = Integer.parseInt(args[i + 1]);
+                    case 'h' -> host = args[i + 1];
+                    case 'n' -> log_ping = true;
+                    case 'f' -> log_failures = true;
+                    case 'r' ->  retryConnection = Integer.parseInt(args[i + 1]);
+                    case 's' -> sleepInterval = Integer.parseInt(args[i + 1]);
+                    default -> throw new IllegalStateException("Unexpected value: " + command);
                 }
             }
         }
