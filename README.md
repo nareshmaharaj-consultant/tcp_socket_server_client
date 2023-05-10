@@ -1,5 +1,6 @@
 # tcp_socket_server_client
 
+<code>
 Usage is either "java -jar SocketServerClient.jar"
 	-t [server | client]
 	-h host 
@@ -8,3 +9,4 @@ Usage is either "java -jar SocketServerClient.jar"
 	-f #use to log connection failures
 	-r (ms) connection retry interval
 	-s (ms) application ping sleep time
+</code>
