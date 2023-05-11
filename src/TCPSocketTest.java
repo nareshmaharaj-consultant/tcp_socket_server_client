@@ -37,14 +37,29 @@ public class TCPSocketTest {
                 char command = args_i.charAt(1);
 
                 switch (command) {
-                    case 't' -> service = args[i + 1];
-                    case 'p' -> port = Integer.parseInt(args[i + 1]);
-                    case 'h' -> host = args[i + 1];
-                    case 'n' -> log_ping = true;
-                    case 'f' -> log_failures = true;
-                    case 'r' ->  retryConnection = Integer.parseInt(args[i + 1]);
-                    case 's' -> sleepInterval = Integer.parseInt(args[i + 1]);
-                    default -> throw new IllegalStateException("Unexpected value: " + command);
+                    case 't': 
+                        service = args[i + 1];
+                        break;
+                    case 'p': 
+                        port = Integer.parseInt(args[i + 1]);
+                        break;
+                    case 'h': 
+                        host = args[i + 1];
+                        break;
+                    case 'n': 
+                        log_ping = true;
+                        break;
+                    case 'f': 
+                        log_failures = true;
+                        break;
+                    case 'r': 
+                        retryConnection = Integer.parseInt(args[i + 1]);
+                        break;
+                    case 's': 
+                        sleepInterval = Integer.parseInt(args[i + 1]);
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + command);
                 }
             }
         }
