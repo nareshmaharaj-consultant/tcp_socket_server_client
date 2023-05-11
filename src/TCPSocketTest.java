@@ -20,8 +20,8 @@ public class TCPSocketTest {
         if ( args.length == 0 ){
             System.out.println("Usage is either \"java -jar SocketServerClient.jar\"" +
                     "\t-t [server | client]" +
-                    "\t-h host\s" +
-                    "\t-p port\s" +
+                    "\t-h host" +
+                    "\t-p port" +
                     "\t-n #use to log successful pings" +
                     "\t-f #use to log connection failures" +
                     "\t-r (ms) connection retry interval" +
