@@ -18,7 +18,7 @@ public class TCPSocketTest {
 
     public static void main(String[] args) {
         if ( args.length == 0 ){
-            System.out.println("Usage is either \"java -jar SocketServerClient.jar\" +
+            System.out.println("Usage is either \"java -jar SocketServerClient.jar\"" +
                     "\t-t [server | client]" +
                     "\t-h host\s" +
                     "\t-p port\s" +
