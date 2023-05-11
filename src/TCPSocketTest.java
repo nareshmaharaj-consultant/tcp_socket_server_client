@@ -17,7 +17,7 @@ public class TCPSocketTest {
     private static int sleepInterval = 5000;
 
     public static void main(String[] args) {
-        if ( args.length == 0 ){
+        if (args.length == 0) {
             System.out.println("Usage is either \"java -jar SocketServerClient.jar\"" +
                     "\n\t-t [server | client]" +
                     "\n\t-h host" +
@@ -29,32 +29,32 @@ public class TCPSocketTest {
             );
             System.exit(0);
         }
-        
-        for( int i=0; i< args.length; i++ ){
+
+        for (int i = 0; i < args.length; i++) {
             String args_i = args[i];
-            if ( args_i.startsWith("-") ){
+            if (args_i.startsWith("-")) {
                 char command = args_i.charAt(1);
 
                 switch (command) {
-                    case 't': 
+                    case 't':
                         service = args[i + 1];
                         break;
-                    case 'p': 
+                    case 'p':
                         port = Integer.parseInt(args[i + 1]);
                         break;
-                    case 'h': 
+                    case 'h':
                         host = args[i + 1];
                         break;
-                    case 'n': 
+                    case 'n':
                         log_ping = true;
                         break;
-                    case 'f': 
+                    case 'f':
                         log_failures = true;
                         break;
-                    case 'r': 
+                    case 'r':
                         retryConnection = Integer.parseInt(args[i + 1]);
                         break;
-                    case 's': 
+                    case 's':
                         sleepInterval = Integer.parseInt(args[i + 1]);
                         break;
                     default:
@@ -64,8 +64,7 @@ public class TCPSocketTest {
         }
         if (service.equalsIgnoreCase("server")) {
             new TCPServer(port);
-        }
-        else if ( service.equalsIgnoreCase("client") ){
+        } else if (service.equalsIgnoreCase("client")) {
             TCPClient client = new TCPClient(host, port);
             client.setCLIENT_SLEEP(sleepInterval);
             client.setConnRetryInt(retryConnection);
@@ -75,29 +74,40 @@ public class TCPSocketTest {
 
     private static class TCPServer {
         public TCPServer(int port) {
-            ServerSocket serverSocket;
-            Socket clientSocket;
+            ServerSocket serverSocket = null;
+            Socket clientSocket = null;
             PrintWriter out;
             BufferedReader in;
-            try {
-                serverSocket = new ServerSocket(port);
-                clientSocket = serverSocket.accept();
-                out = new PrintWriter(clientSocket.getOutputStream(), true);
-                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-                String inputLine;
-                LocalDateTime dataObj;
-                while ((inputLine = in.readLine()) != null) {
-                    if (".".equals(inputLine)) {
-                        out.println("Done!");
-                        break;
+            while (true) {
+                try {
+                    if (serverSocket != null && serverSocket.isBound()) {
+                        serverSocket.close();
                     }
-                    dataObj = LocalDateTime.now();
-                    out.println(dataObj + " - " + "Received: " + inputLine );
-                }
+                    if (clientSocket != null && clientSocket.isBound()) {
+                        clientSocket.close();
+                    }
+                    serverSocket = new ServerSocket(port);
+                    clientSocket = serverSocket.accept();
+                    out = new PrintWriter(clientSocket.getOutputStream(), true);
+                    in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                    String inputLine;
+                    LocalDateTime dataObj;
+                    while ((inputLine = in.readLine()) != null) {
+                        if (".".equals(inputLine)) {
+                            out.println("Done!");
+                            break;
+                        }
+                        dataObj = LocalDateTime.now();
+                        out.println(dataObj + " - " + "Received: " + inputLine);
+                    }
+
+                } catch (SocketException socketExceptione) {
+                    socketExceptione.printStackTrace();
+                    continue;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -116,12 +126,12 @@ public class TCPSocketTest {
             this.CLIENT_SLEEP = CLIENT_SLEEP;
         }
 
-        public void setConnRetryInt(int ms){
+        public void setConnRetryInt(int ms) {
             this.CONN_RETRY_INT = ms;
         }
 
 
-        public void read(){
+        public void read() {
             while (true) {
                 try {
                     clientSocket = new Socket(host, port);
@@ -135,16 +145,16 @@ public class TCPSocketTest {
                         String resp = in.readLine();
                         Thread.sleep(CLIENT_SLEEP);
                         if (resp == null) {
-                            if ( log_ping )
-                                System.out.println(LocalDateTime.now() + " - " + NoMsgRcd );
+                            if (log_ping)
+                                System.out.println(LocalDateTime.now() + " - " + NoMsgRcd);
                             break;
                         }
-                        if ( log_ping )
+                        if (log_ping)
                             System.out.println(resp);
                     }
                 } catch (SocketException se) {
                     String err = se.getMessage();
-                    if ( log_failures )
+                    if (log_failures)
                         System.out.println(LocalDateTime.now() + " - " + err);
                     try {
                         Thread.sleep(CONN_RETRY_INT);
