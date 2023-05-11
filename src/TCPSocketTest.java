@@ -19,13 +19,13 @@ public class TCPSocketTest {
     public static void main(String[] args) {
         if ( args.length == 0 ){
             System.out.println("Usage is either \"java -jar SocketServerClient.jar\"" +
-                    "\t-t [server | client]" +
-                    "\t-h host" +
-                    "\t-p port" +
-                    "\t-n #use to log successful pings" +
-                    "\t-f #use to log connection failures" +
-                    "\t-r (ms) connection retry interval" +
-                    "\t-s (ms) application ping sleep time"
+                    "\n\t-t [server | client]" +
+                    "\n\t-h host" +
+                    "\n\t-p port" +
+                    "\n\t-n #use to log successful pings" +
+                    "\n\t-f #use to log connection failures" +
+                    "\n\t-r (ms) connection retry interval" +
+                    "\n\t-s (ms) application ping sleep time"
             );
             System.exit(0);
         }
